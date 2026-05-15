@@ -9,6 +9,7 @@ struct MediaFiles {
 };
 
 class MediaScanner {
+   public:
     MediaFiles Scan(const std::filesystem::path& root) const;
 
    private:

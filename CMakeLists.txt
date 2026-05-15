@@ -7,4 +7,5 @@ add_executable(media_scanner
     src/main.cpp
     src/scanner_config.cpp
     src/media_scanner.cpp
+    src/json_writer.cpp
 )

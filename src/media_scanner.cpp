@@ -25,3 +25,27 @@ bool MediaScanner::IsImage(const std::filesystem::path& path) {
                                                         ".bmp", ".webp", ".tiff"};
     return HasExtension(path, extensions);
 }
+
+MediaFiles MediaScanner::Scan(const std::filesystem::path& root) const {
+    MediaFiles files;
+    const auto options = std::filesystem::directory_options::skip_permission_denied;
+
+    for (const auto& entry : std::filesystem::recursive_directory_iterator(root, options)) {
+        if (!entry.is_regular_file()) {
+            continue;
+        }
+
+        const std::filesystem::path path = entry.path();
+        const std::string file_name = path.filename().string();
+
+        if (IsAudio(path)) {
+            files.audio.push_back(file_name);
+        } else if (IsVideo(path)) {
+            files.video.push_back(file_name);
+        } else if (IsImage(path)) {
+            files.images.push_back(file_name);
+        }
+    }
+
+    return files;
+}
